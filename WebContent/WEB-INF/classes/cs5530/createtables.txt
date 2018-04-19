@@ -1,0 +1,191 @@
+DROP TABLE 5530db64.Usefulness;
+DROP TABLE 5530db64.Registered;
+DROP TABLE 5530db64.Shifts;
+DROP TABLE 5530db64.Trusts;
+DROP TABLE 5530db64.Feedbacks;
+DROP TABLE 5530db64.RidesReserved;
+DROP TABLE 5530db64.Favorites;
+DROP TABLE 5530db64.UCar;
+DROP TABLE 5530db64.RidesTaken;
+DROP TABLE 5530db64.UDriver;
+DROP TABLE 5530db64.UUser;
+
+CREATE TABLE IF NOT EXISTS 5530db64.UUser (
+    username VARCHAR(30) PRIMARY KEY,
+    fullName VARCHAR(30) NOT NULL,
+    password VARCHAR(30) NOT NULL,
+    address VARCHAR(50),
+    phone INTEGER,
+    isAdmin BOOLEAN,
+    UNIQUE(username)
+);
+
+CREATE TABLE IF NOT EXISTS 5530db64.UDriver (
+    username VARCHAR(30),
+    rating INTEGER,
+    PRIMARY KEY (username),
+    FOREIGN KEY (username) REFERENCES 5530db64.UUser(username)
+);
+
+
+CREATE TABLE IF NOT EXISTS 5530db64.UCar (
+    vin INTEGER,
+    category VARCHAR(30),
+    class VARCHAR(30),
+    model VARCHAR(30),
+    make VARCHAR(30),
+    carYear INTEGER,
+    PRIMARY KEY (vin)
+);
+
+CREATE TABLE IF NOT EXISTS 5530db64.RidesTaken (
+    rid INTEGER not null auto_increment,
+    username VARCHAR(30),
+    vin INTEGER,
+    timeTaken INTEGER,
+    cost INTEGER,
+    people INTEGER,
+    distance INTEGER,
+    PRIMARY KEY (rid),
+    FOREIGN KEY (username) REFERENCES 5530db64.UUser(username)
+);
+
+CREATE TABLE IF NOT EXISTS 5530db64.Favorites (
+    vin INTEGER,
+    username VARCHAR(30),
+    favDate Date,
+    PRIMARY KEY (vin, username),
+    FOREIGN KEY (username) REFERENCES 5530db64.UUser(username),
+    FOREIGN KEY (vin) REFERENCES 5530db64.UCar(vin)
+);
+
+CREATE TABLE IF NOT EXISTS 5530db64.RidesReserved (
+    res_id INTEGER not null auto_increment,
+    username VARCHAR(30),
+    resTime INTEGER,
+    vin INTEGER,
+    PRIMARY KEY (res_id),
+    FOREIGN KEY (username) REFERENCES 5530db64.UUser(username),
+    FOREIGN KEY (vin) REFERENCES 5530db64.UCar(vin)
+);
+
+CREATE TABLE IF NOT EXISTS 5530db64.Feedbacks (
+    fid INTEGER not null auto_increment,
+    username VARCHAR(30),
+    vin INTEGER,
+    score INTEGER,
+    userComment text,
+    fDate Date,
+    PRIMARY KEY (fid),
+    FOREIGN KEY (username) REFERENCES 5530db64.UUser(username),
+    FOREIGN KEY (vin) REFERENCES 5530db64.UCar(vin),
+    CONSTRAINT One_Comment UNIQUE (username,vin)
+);
+CREATE TABLE IF NOT EXISTS 5530db64.Trusts (
+    username1 VARCHAR(30),
+    username2 VARCHAR(30),
+    trustLevel boolean,
+    PRIMARY KEY (username1, username2),
+    FOREIGN KEY (username1) REFERENCES 5530db64.UUser(username),
+    FOREIGN KEY (username2) REFERENCES 5530db64.UUser(username)
+);
+
+CREATE TABLE IF NOT EXISTS 5530db64.Shifts (
+    sid INTEGER not null auto_increment,
+    username VARCHAR(30),
+    startShift INTEGER,
+    endShift INTEGER,
+    PRIMARY KEY (sid),
+    FOREIGN KEY (username) REFERENCES 5530db64.UUser(username)
+);
+
+CREATE TABLE IF NOT EXISTS 5530db64.Registered (
+    vin INTEGER,
+    username VARCHAR(30),
+    PRIMARY KEY (vin, username),
+    FOREIGN KEY (username) REFERENCES 5530db64.UUser(username),
+    FOREIGN KEY (vin) REFERENCES 5530db64.UCar(vin)
+);
+
+CREATE TABLE IF NOT EXISTS 5530db64.Usefulness (
+    fid INTEGER,
+    username VARCHAR(30),
+    score INTEGER,
+    PRIMARY KEY (username, fid),
+    FOREIGN KEY (username) REFERENCES 5530db64.UUser(username),
+    FOREIGN KEY (fid) REFERENCES 5530db64.Feedbacks(fid)
+);
+
+------------------------------------------------------
+
+INSERT INTO 5530db64.UUser
+VALUES ("Samir", "Samir Mulahalilovic", "Hello", "123 fk street", 911, 0);
+
+INSERT INTO 5530db64.UUser
+VALUES ("Ricc", "Riccardo Sonsini", "Hello", "Somewher in Italy", 1480948027, 1);
+
+INSERT INTO 5530db64.UUser
+VALUES ("Dave", "Dave CS", "Hello", "Cade Usually", 5123918, 0);
+
+INSERT INTO 5530db64.UUser
+VALUES ("MadMan", "Madan", "Hello", "Salt Lake City, UT", 41441, 0);
+
+INSERT INTO 5530db64.UUser
+VALUES ("byuguy", "Jonathan", "Hello", "Salt Lake City, UT", 65742, 0);
+
+INSERT INTO 5530db64.UUser
+VALUES ("mansNotHot", "Big Shaq", "Hello", "San Diego, CA", 2131441, 0);
+
+INSERT INTO 5530db64.UUser
+VALUES ("codingGirl13", "Marina", "Hello", "Salt Lake City, UT", 080705, 0);
+
+INSERT INTO 5530db64.UUser
+VALUES ("CrpytoKing", "Steve Hoge", "Hello", "Detroit, Michigan", 2424242, 0);
+
+INSERT INTO 5530db64.UUser
+VALUES ("AsianCop213", "Dale Choi", "Hello", "Asia", 24242413, 0);
+
+INSERT INTO 5530db64.UDriver
+VALUES ("Samir", 10);
+
+INSERT INTO 5530db64.UDriver
+VALUES ("Dave", 3);
+
+INSERT INTO 5530db64.UDriver
+VALUES ("Ricc", 6);
+
+INSERT INTO 5530db64.Shifts
+VALUES (1, "Samir", 12, 20);
+
+INSERT INTO 5530db64.Shifts
+VALUES (2, "Ricc", 20, 24);
+
+INSERT INTO 5530db64.Shifts
+VALUES (3, "Dave", 0, 24);
+
+INSERT INTO 5530db64.UCar
+VALUES (100, "Comfort", "Sedan", "Legacy", "Subaru", 2008);
+
+INSERT INTO 5530db64.UCar
+VALUES (50, "Comfort", "Sedan", "Legacy", "Subaru", 2012);
+
+INSERT INTO 5530db64.UCar
+VALUES (10, "Luxury", "SUV", "Cayanne", "Porsche", 2019);
+
+INSERT INTO 5530db64.UCar
+VALUES (70, "Luxury", "SUV", "Cayanne", "Porsche", 2019);
+
+INSERT INTO 5530db64.Registered
+VALUES (100, "Samir");
+
+INSERT INTO 5530db64.Registered
+VALUES (70, "Samir");
+
+INSERT INTO 5530db64.Registered
+VALUES (10, "Dave");
+
+INSERT INTO 5530db64.Registered
+VALUES (50, "Ricc");
+
+INSERT INTO 5530db64.RidesReserved (username, resTime, vin)
+VALUES ("Ricc","13", 100);

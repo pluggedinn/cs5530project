@@ -1,4 +1,4 @@
-<%@ page language="java" import="cs5530.*" %>
+<%@ page language="java" import="oldcs5530.*" %>
 <html>
 <head>
 <script LANGUAGE="javascript">
