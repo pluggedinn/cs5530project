@@ -1,8 +1,16 @@
 body {
-	background-color: lightgrey;
+	background-color: white;
+}
+
+.navbar {
+	margin-bottom: 45px;
 }
 
 .login-title {
 	margin-top:45px;
 	margin-bottom: 40px;
+}
+
+.logout {
+	font-style: italic;
 }

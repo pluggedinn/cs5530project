@@ -7,7 +7,7 @@ import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationExceptio
 
 public class Favorites {
 
-	public void displayAllCars (Statement stmt) {
+	public String displayAllCars (Statement stmt) {
 		String sql = "SELECT * FROM 5530db64.UCar";
 		String output = "";
 		ResultSet rs = null;
@@ -18,6 +18,7 @@ public class Favorites {
 			}
 			System.out.println("vin  model  make  year");
 			System.out.println(output);
+			return output;
 		}
 		catch(Exception e) {
 			System.out.println(e);
@@ -33,6 +34,7 @@ public class Favorites {
 	 			System.out.println("cannot close resultset");
 	 		}
 	 	}
+		return null;
 	}
 	
 	public boolean getSelectedCar (String vin, Statement stmt) {

@@ -7,7 +7,7 @@ import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationExceptio
 
 public class Feedbacks {
 
-	public void displayAllFeedbacks (String usr, Statement stmt) {
+	public String displayAllFeedbacks (String usr, Statement stmt) {
 		String sql = "SELECT * FROM 5530db64.Feedbacks\r\n" + 
 				"WHERE username != '"+usr+"'";
 		String output = "";
@@ -19,6 +19,7 @@ public class Feedbacks {
 			}
 			System.out.println("fid  score  comment");
 			System.out.println(output);
+			return output;
 		}
 		catch(Exception e) {
 			System.out.println(e);
@@ -34,6 +35,7 @@ public class Feedbacks {
 	 			System.out.println("cannot close resultset");
 	 		}
 	 	}
+		return null;
 	}
 	
 	public boolean getSelectedFeedback (String fid, Statement stmt) {

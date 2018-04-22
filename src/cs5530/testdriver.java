@@ -163,7 +163,7 @@ public class testdriver {
 		           	 		car.addCar(loggedUser, Integer.parseInt(elements[0]), elements[1], elements[2], elements[3], elements[4], Integer.parseInt(elements[5]), con.stmt);
 	           	 			
 	           	 		} else if (response.toLowerCase().equals("update")) {
-	           	 			ArrayList<Integer> cars = car.showOwnedCars(loggedUser, con.stmt);
+	           	 			String cars = car.showOwnedCars(loggedUser, con.stmt);
 	           	 			
 		           	 		System.out.println("- Type your car's vin, category, class, model, make, year separated by a comma:");
 		           	 		System.out.println("for example '100,Comfort,Sedan,Legacy,Subaru,2008'");
@@ -171,7 +171,7 @@ public class testdriver {
 		           	 		String res = data;
 		           	 		String[] elements = res.split(",");
 		           	 		
-		           	 		car.updateCar(cars, loggedUser, Integer.parseInt(elements[0]), elements[1], elements[2], elements[3], elements[4], Integer.parseInt(elements[5]), con.stmt);
+		           	 		car.updateCar(loggedUser, Integer.parseInt(elements[0]), elements[1], elements[2], elements[3], elements[4], Integer.parseInt(elements[5]), con.stmt);
 		           	 		
 	           	 		} else {
 	           	 			System.out.println("Command can't be recognized\n");

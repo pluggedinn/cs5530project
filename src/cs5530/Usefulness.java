@@ -24,7 +24,7 @@ public class Usefulness {
 		}
 	}
 	
-	public void getMostUsefulFeedbacks(String driver, String limit, Statement stmt) {
+	public String getMostUsefulFeedbacks(String driver, String limit, Statement stmt) {
 		String sql = "select fid, username, avg(score) as average, userComment as comment from\r\n" + 
 				"(select F.fid, B.username, U.score, F.score as rating, userComment\r\n" + 
 				"from 5530db64.Usefulness U join 5530db64.Feedbacks F\r\n" + 
@@ -42,6 +42,7 @@ public class Usefulness {
 			}
 			System.out.println("fid  username  average  comment");
 			System.out.println(output);
+			return output;
 		}
 		catch(Exception e) {
 			System.out.println(e);
@@ -57,6 +58,7 @@ public class Usefulness {
 	 			System.out.println("cannot close resultset");
 	 		}
 	 	}
+		return null;
 	}
 
 }

@@ -38,17 +38,17 @@
 					String username = request.getParameter("user");
 					String psw = request.getParameter("psw");
 					if (user.login(username, psw, con.stmt)) {
+						session.setAttribute("username", username);
+						response.sendRedirect("/phase3/rides.jsp");
+					} else {
+						if (request.getParameterMap().containsKey("user")) {
 				%>
-					<div class="alert alert-success" role="alert">
-  						Successfully logged in as <%=username %>
-					</div>
-				<% } else {
-					if (request.getParameterMap().containsKey("user")) {%>
 					<div class="alert alert-danger" role="alert">
   						Wrong username and/or password
 					</div>
-				<%	}
-				}
+					
+				<%		}
+					}
 					con.stmt.close();
 				%>
 				</div>

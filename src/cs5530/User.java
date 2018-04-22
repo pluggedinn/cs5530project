@@ -7,7 +7,7 @@ import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationExceptio
 
 public class User {
 
-	public void displayAllUsers (String usr, Statement stmt) {
+	public String displayAllUsers (String usr, Statement stmt) {
 		String sql = "SELECT * FROM 5530db64.UUser\r\n" + 
 				"WHERE username != '"+usr+"'";
 		String output = "";
@@ -19,6 +19,7 @@ public class User {
 			}
 			System.out.println("username");
 			System.out.println(output);
+			return output;
 		}
 		catch(Exception e) {
 			System.out.println(e);
@@ -34,6 +35,7 @@ public class User {
 	 			System.out.println("cannot close resultset");
 	 		}
 	 	}
+		return null;
 	}
 	
 	public boolean registerUser(String usr, String name, String psw, String addr, String phone, int admin, Statement stmt) {

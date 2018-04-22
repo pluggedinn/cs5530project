@@ -9,7 +9,7 @@ import java.util.List;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
 public class Car {
-	public void addCar(String usr, int vin, String category, String carClass, String model, String make, int carYear, Statement stmt) {
+	public boolean addCar(String usr, int vin, String category, String carClass, String model, String make, int carYear, Statement stmt) {
 		String sql1 = "INSERT INTO 5530db64.UCar\r\n" + 
 				"VALUES ("+vin+", '"+category+"', '"+carClass+"', '"+model+"', '"+make+"', "+carYear+");";
 		String sql2 = "INSERT INTO 5530db64.Registered\r\n" + 
@@ -19,6 +19,7 @@ public class Car {
 			rs = stmt.executeUpdate(sql1);
 			rs = stmt.executeUpdate(sql2);
 			System.out.println("Car added successfully\n");
+			return true;
 		}
 		catch(Exception e) {
 			if (e instanceof MySQLIntegrityConstraintViolationException) {
@@ -27,19 +28,19 @@ public class Car {
 				System.out.println(e);
 			}
 		}
+		return false;
 	}
 	
-	public ArrayList<Integer> showOwnedCars(String usr, Statement stmt) {
+	public String showOwnedCars(String usr, Statement stmt) {
 		String sql1 = "SELECT * FROM 5530db64.UCar natural join 5530db64.Registered\r\n" + 
 				"WHERE username = '"+usr+"';";
 
 		ResultSet rs = null;
 		String output = "";
-		ArrayList<Integer> vins = new ArrayList<Integer>();
+//		ArrayList<Integer> vins = new ArrayList<Integer>();
 		try {
 			rs = stmt.executeQuery(sql1);
 			while(rs.next()) {
-				vins.add(Integer.parseInt(rs.getString("vin")));
 				output += rs.getString("vin")+"  "+rs.getString("model")+"  "+rs.getString("make")+"  "+rs.getString("carYear")+"\n"; 
 			}
 			
@@ -47,7 +48,7 @@ public class Car {
 			System.out.println("vin  model  make  year");
 			System.out.println(output);
 			System.out.println("");
-			return vins;
+			return output;
 		}
 		catch(Exception e) {
 			System.out.println(e);
@@ -139,18 +140,15 @@ public class Car {
 	 	}	
 	}
 	
-	public void updateCar(ArrayList<Integer> vins, String usr, int vin, String category, String carClass, String model, String make, int carYear,  Statement stmt) {
+	public boolean updateCar(String usr, int vin, String category, String carClass, String model, String make, int carYear,  Statement stmt) {
 		String sql2 = "UPDATE 5530db64.UCar\r\n" + 
 				"SET 5530db64.UCar.vin = "+vin+", 5530db64.UCar.category = '"+category+"', 5530db64.UCar.class = '"+carClass+"', 5530db64.UCar.model = '"+model+"', 5530db64.UCar.make = '"+make+"', 5530db64.UCar.carYear = "+carYear+"\r\n" + 
-				"WHERE 5530db64.UCar.vin = 100;";
+				"WHERE 5530db64.UCar.vin = "+vin+";";
 		try {
-			if (!vins.contains(vin)) {
-				System.out.println("You don't own this car!\n");
-				return;
-			}
 			
 			stmt.executeUpdate(sql2);
 			System.out.println("Car updated successfully\n");
+			return true;
 		}
 		catch(Exception e) {
 			if (e instanceof MySQLIntegrityConstraintViolationException) {
@@ -159,9 +157,10 @@ public class Car {
 				System.out.println(e);
 			}
 		}
+		return false;
 	}
 	
-	public void browseCars(String usr, List<String> options, String category, String address, String model, String order, Statement stmt) {
+	public String browseCars(String usr, List<String> options, String category, String address, String model, String order, Statement stmt) {
 		String sql = null;
 		ResultSet rs = null;
 		String output = "";
@@ -200,7 +199,7 @@ public class Car {
  		} else {
 // 			System.out.println(sql);
  			System.out.println("Unrecognized command");
- 			return;
+ 			return null;
  		}
  		sql += "\r\nORDER BY avg_score DESC";
  		
@@ -214,6 +213,7 @@ public class Car {
 			System.out.println("vin  category  model  make  year");
 			System.out.println(output);
 			System.out.println("");
+			return output;
 		}
 		catch(Exception e) {
 			System.out.println(e);
@@ -228,7 +228,8 @@ public class Car {
 	 		{
 	 			System.out.println("cannot close resultset");
 	 		}
-	 	} 		
+	 	}
+		return null;
  		
 	}
 

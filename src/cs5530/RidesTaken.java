@@ -45,13 +45,14 @@ public class RidesTaken {
 		return null;
 	}
 	
-	public void recordRide(String usr, int time, String people, String distance, String cost, String vin, Statement stmt) {
+	public boolean recordRide(String usr, int time, String people, String distance, String cost, String vin, Statement stmt) {
 		String sql = "INSERT INTO 5530db64.RidesTaken (username, vin, timeTaken, cost, people, distance)\r\n" + 
 				"VALUES ('"+usr+"', "+vin+", "+time+", "+cost+", "+people+", "+distance+")";
 		int rs = 0;
 		try {
 			rs = stmt.executeUpdate(sql);
 			System.out.println("Ride requested\n");
+			return true;
 		}
 		catch(Exception e) {
 			if (e instanceof MySQLIntegrityConstraintViolationException) {
@@ -60,5 +61,6 @@ public class RidesTaken {
 				System.out.println(e);
 			}
 		}
+		return false;
 	}
 }
