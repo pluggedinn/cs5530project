@@ -39,7 +39,7 @@
 					String psw = request.getParameter("psw");
 					if (user.login(username, psw, con.stmt)) {
 						session.setAttribute("username", username);
-						response.sendRedirect("/phase3/rides.jsp");
+						response.sendRedirect("rides.jsp");
 					} else {
 						if (request.getParameterMap().containsKey("user")) {
 				%>
@@ -50,10 +50,11 @@
 				<%		}
 					}
 					con.stmt.close();
+					con.closeConnection();
 				%>
 				</div>
 			    <div class="form-group">
-		        	<a href="/phase3/register.jsp">Create account</a>
+		        	<a href="register.jsp">Create account</a>
 		        </div>
 			</form>
 		</div>

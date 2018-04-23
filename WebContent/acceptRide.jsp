@@ -19,7 +19,8 @@
 	}
 	if (session.getAttribute("username") == null) {
 		System.out.println("redirect");
-		response.sendRedirect("/phase3/index.jsp");
+		response.sendRedirect("index.jsp");
+		return;
 	}
 %>
 
@@ -91,6 +92,7 @@
 				}
 				
 				con.stmt.close();
+				con.closeConnection();
 			%>
 			
 			</div>

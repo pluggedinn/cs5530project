@@ -61,6 +61,7 @@
 					}
 				}
 				con.stmt.close();
+				con.closeConnection();
 			%>
 			    </div>
 			</form>
